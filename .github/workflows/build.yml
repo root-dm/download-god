@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build Application
 
 on:
   push:
@@ -10,24 +10,33 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'  # Specify the Python version you are using
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: |
+        python -m venv .venv
+        .\.venv\Scripts\pip install --upgrade pip
+        .\.venv\Scripts\pip install pyinstaller
+        .\.venv\Scripts\pip install -r requirements.txt
 
-      - name: Run build
-        run: npm run build
+    - name: Build with PyInstaller
+      run: |
+        .\.venv\Scripts\pyinstaller app.spec --noconfirm
 
-      - name: Deploy
-        run: npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: downloadgod-build
+        path: |
+          dist/DownloadGod/*
+          !dist/DownloadGod/*.spec
+        retention-days: 5
