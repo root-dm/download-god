@@ -34,8 +34,8 @@ jobs:
     - name: Create zip archive
       run: |
         mkdir build_output
-        xcopy dist\DownloadGod build_output\DownloadGod.exe /Y
-        xcopy /E dist\DownloadGod\_internal build_output\_internal
+        copy dist\DownloadGod\DownloadGod.exe build_output\DownloadGod.exe
+        robocopy dist\DownloadGod\_internal build_output\_internal /E
         powershell Compress-Archive -Path build_output\* -DestinationPath build_output.zip
 
     - name: Archive build artifacts
