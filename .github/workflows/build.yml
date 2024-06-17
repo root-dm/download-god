@@ -31,9 +31,16 @@ jobs:
       run: |
         .\.venv\Scripts\pyinstaller app.spec --noconfirm
 
+    - name: Create zip archive
+      run: |
+        mkdir build_output
+        xcopy dist\DownloadGod build_output\DownloadGod.exe /Y
+        xcopy /E dist\DownloadGod\_internal build_output\_internal
+        powershell Compress-Archive -Path build_output\* -DestinationPath build_output.zip
+
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: downloadgod-exe
-        path: dist/DownloadGod/DownloadGod.exe
+        name: downloadgod-build
+        path: build_output.zip
         retention-days: 5
