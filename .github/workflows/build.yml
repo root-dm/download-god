@@ -34,8 +34,6 @@ jobs:
     - name: Archive build artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: downloadgod-build
-        path: |
-          dist/DownloadGod/*
-          !dist/DownloadGod/*.spec
+        name: downloadgod-exe
+        path: dist/DownloadGod/DownloadGod.exe
         retention-days: 5
