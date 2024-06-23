@@ -1,4 +1,4 @@
-# Google Drive Downloader
+# Download God
 
 This project allows you to download files from Google Drive using a graphical user interface (GUI).
 ## Installation
@@ -19,3 +19,6 @@ python main.py
 1. Enter the Google Drive folder ID.
 2. Select the destination directory.
 3. Click "Start" to begin downloading files.
+
+## TO DO
+1. Add more download sources
